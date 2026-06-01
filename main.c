@@ -113,7 +113,7 @@ void WriteConstCharHaderFile(const char* haderName, char* matrixName , char* dat
 	
 	
 	if(append){
-		fprintf(hader, "\n/********************************************%s***********************************************/\n",matrixName);
+		fprintf(hader, "\n\n\n/********************************************%s***********************************************/\n",matrixName);
 	}
 	fprintf(hader, "const char* %s = \n",matrixName);
 	fwrite(data, 1, sizeofData-1,hader);
@@ -181,8 +181,8 @@ int main(int argc, char** arg){
 		if( (arglng==2 & !memcmp(arg[1], "-h", 2)) || 
 		    (arglng==6 & !memcmp(arg[1], "--help", 6))
 		  ){
-			printf("Welcome to File2.H\nthis programe is under the MIT Licence\ncheckout the github : https://github.com/chamseddine2009-06/File2.H\n\n");
-			printf("===> [arg1 fileName] [arg2 2haderName] [arg3 StringName] -Opsion1 -Opsion2 ...\n"
+			printf("Welcome to File2.H!\nthis programe is under the MIT Licence\ncheckout the github : https://github.com/chamseddine2009-06/File2.H\n\n");
+			printf("===> [arg1 fileName] [arg2 2haderName] [arg3 StringName] -Option1 -Option2 ...\n"
 			       "\nOptions:\n"	
 			       "\t-m or --matrix if you want to save it as matrix not as a string.\n"
 			       "\t-a or --appand if you dont want to over-write the data in the Haderfile.\n");
@@ -212,7 +212,7 @@ int main(int argc, char** arg){
 			}
 			if(strlen(arg[i])==8 && !memcmp(arg[i] ,"--append", 8)){
 				printf("\nYou are in appand mode.\n");
-				 matrixmode= true;
+				appendmode = true;
 			}
 		}
 	}
