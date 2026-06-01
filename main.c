@@ -3,11 +3,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+
+
 typedef unsigned int u32;
 typedef unsigned long u64;
+
 typedef char bool;
 #define false 0
 #define true 1
+
+
+
 u64 max(u64 v1 , u64 v2){
 	return v1>v2?v1:v2;
 }
@@ -42,6 +48,9 @@ void* Push(char* val , u32 sizeofstr ,u64 pos,  u64* dataSize , u64* usedData , 
 	*usedData+=sizeofstr;
 	return data;
 }
+
+
+
 unsigned long GetFileSize(FILE* fl){
 	if(fl==NULL){
 		printf("err in file\n");
@@ -57,6 +66,8 @@ unsigned long GetFileSize(FILE* fl){
 	return fileSize;
 
 }
+
+
 void* readFile(const char* fileName , unsigned long * sizeOUT){
 	FILE* file = fopen(fileName, "r");
 	if(file==NULL){
@@ -78,6 +89,8 @@ void* readFile(const char* fileName , unsigned long * sizeOUT){
 	fclose(file);
 	return NULL;
 }
+
+
 
 void WriteConstCharHaderFile(const char* haderName, char* matrixName , char* data , u64 sizeofData ,bool append ){
 	FILE* hader = fopen(haderName, append?"a":"w");
@@ -122,6 +135,8 @@ void WriteConstCharHaderFile(const char* haderName, char* matrixName , char* dat
 	fclose(hader);
 	return;
 }
+
+
 
 void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data , u64 sizeofData,bool append){
 	FILE* hader = fopen(haderName, append?"a":"w");
@@ -173,6 +188,35 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 	fclose(hader);
 	return;
 }
+
+
+
+
+void* Text2String(char* data, u64* dataSize, u64* usedData){
+	for(u64 i = *dataSize ; i > 0 ; i--){
+		if(data[i-1] == '\n'){
+			data = (char*)Push("\t\"", 2, i, dataSize, usedData, data);
+			data = (char*)Push("\\n\"", 3, i-1, dataSize, usedData, data);
+
+		}
+		if(data[i-1]=='"' ){
+			if(i>2 && data[i-2]=='\\' && data[i-3]!='\\'){
+				continue;
+			}
+			data = (char*)Push("\\", 1, i-1, dataSize, usedData, data);
+		}
+	}
+	if(data[*usedData-1]=='"'){
+		data[*usedData-1]='\0';
+	}
+
+	data=(char*)Push("\t\"", 2, 0, dataSize, usedData, data);
+	return  data;
+}
+
+
+
+
 int main(int argc, char** arg){
 	printf("*** File2.H ***\n");
 	if(argc>=2) 
@@ -181,7 +225,7 @@ int main(int argc, char** arg){
 		if( (arglng==2 & !memcmp(arg[1], "-h", 2)) || 
 		    (arglng==6 & !memcmp(arg[1], "--help", 6))
 		  ){
-			printf("Welcome to File2.H!\nthis programe is under the MIT Licence\ncheckout the github : https://github.com/chamseddine2009-06/File2.H\n\n");
+			printf("Welcome to File2.H!\nthis programe is under the MIT License\ncheckout the github repo: https://github.com/chamseddine2009-06/File2.H\n\n");
 			printf("===> [arg1 fileName] [arg2 2haderName] [arg3 StringName] -Option1 -Option2 ...\n"
 			       "\nOptions:\n"	
 			       "\t-m or --matrix if you want to save it as matrix not as a string.\n"
@@ -222,26 +266,8 @@ int main(int argc, char** arg){
 	u64 usedData = dataSize;
 	printf("file %s size %d \n",arg[1],dataSize);
 	if(!matrixmode){
-		for(u64 i = dataSize ; i > 0 ; i--){
-			if(data[i-1] == '\n'){
-				data = (char*)Push("\t\"", 2, i, &dataSize, &usedData, data);
-				data = (char*)Push("\\n\"", 3, i-1, &dataSize, &usedData, data);
-
-			}
-			if(data[i-1]=='"' ){
-				if(i>2 && data[i-2]=='\\' && data[i-3]!='\\'){
-					continue;
-				}
-				data = (char*)Push("\\", 1, i-1, &dataSize, &usedData, data);
-			}
-		}
-		if(data[usedData-1]=='"'){
-			data[usedData-1]='\0';
-		}
-	
-		data=(char*)Push("\t\"", 2, 0, &dataSize, &usedData, data);
 		printf("Data size %d\n" , dataSize);
-		
+		data = Text2String(data, &dataSize, &usedData);
 		WriteConstCharHaderFile(arg[2],arg[3], data, usedData,appendmode);
 	}else {
 		WriteMatrixHaderFile(arg[2], arg[3], data, dataSize,appendmode);
