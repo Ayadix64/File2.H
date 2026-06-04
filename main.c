@@ -128,7 +128,7 @@ void WriteConstCharHaderFile(const char* haderName, char* matrixName , char* dat
 	if(append){
 		fprintf(hader, "\n\n\n/********************************************%s***********************************************/\n",matrixName);
 	}
-	fprintf(hader, "const char* %s = \n",matrixName);
+	fprintf(hader, "static const char* %s = \n",matrixName);
 	fwrite(data, 1, sizeofData-1,hader);
 	//fwrite(const void *__restrict ptr, size_t size, size_t n, FILE *__restrict s)
 	fprintf(hader, ";");
@@ -174,7 +174,7 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 		fprintf(hader, "\n\n\n/********************************************%s***********************************************/\n",matrixName);
 	}
 
-	fprintf(hader, "const char %s[]{ \n\t",matrixName);
+	fprintf(hader, "static const char %s[]{ \n\t",matrixName);
 	
 	for(u64 i = 0 ; i < sizeofData ; i++){
 		if(!(i%10)){

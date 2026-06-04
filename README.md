@@ -1,6 +1,6 @@
 # File2.H
 
-simplay it convert any file to a .H header, it creat a const char* strinf contining all the data from the file that i use for shaders
+simplay it convert any file to a .H header, it creat a static const char* string contining all the data from the file that i use for shaders
 
 
 ### How to use it?
