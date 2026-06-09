@@ -23,19 +23,21 @@ u64 min(u64 v1 , u64 v2){
 void* Push(char* val , u32 sizeofstr ,u64 pos,  u64* dataSize , u64* usedData , char* data){
 	
 	if(usedData+sizeofstr>= dataSize){
-		u64 newDataSize = *dataSize+max(0x1000,*usedData+sizeofstr);
-		char* newdata = (char*)malloc(newDataSize);
+		u64 newDataSize = *usedData+sizeofstr+0x1000;//*dataSize+max(0x1000,*usedData+sizeofstr);
+		data=realloc(data,newDataSize);
+		/*char* newdata = (char*)malloc(newDataSize);
 		memcpy(newdata, data, *dataSize);
 		free(data);
-		data=newdata;
+		data=newdata;*/
 		*dataSize=newDataSize; 
 	}
 	if(pos>=*dataSize){
-		u64 newDataSize = *dataSize+max(0x1000,*usedData+sizeofstr);
-		char* newdata = (char*)malloc(*dataSize+max(0x1000,pos));
+		u64 newDataSize = pos+sizeofstr+0x1000;//*dataSize+max(0x1000,*usedData+sizeofstr);
+		data=realloc(data, newDataSize);
+		/*char* newdata = (char*)malloc(*dataSize+max);
 		memcpy(newdata, data, *dataSize);
 		free(data);
-		data=newdata;
+		data=newdata;*/
 		*dataSize=newDataSize;
 	}
 	for(u32 i = *usedData+sizeofstr; i>pos+sizeofstr; i--){
