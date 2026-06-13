@@ -12,7 +12,7 @@ and then you will have f2h good to go, and to use it
 
 if you in linux / macos / BSD and you want to install to your /bin/, run
 ``` bash
-    make install
+make install
 ```
 ### How to use it?
 ```bash 
@@ -20,7 +20,7 @@ f2h main.c main.h main_string #this creat a main.h with in a main_string string 
 ```
 so the layout is
 ``` bash
-    f2h [tragetFile] [HaderFile(the one that the data will save to)] [MatrixName] -option1 -option2 ...
+f2h [tragetFile] [HaderFile(the one that the data will save to)] [MatrixName] -option1 -option2 ...
 ```
 if you want to save as a matrix, add -m  (or --matrix )to the end, and it will creat a char matrix for you;
 
