@@ -12,7 +12,7 @@ and then you will have f2h good to go, and to use it
 
 if you in linux / macos / BSD and you want to install to your /bin/, run
 ``` bash
-make install
+sudo make install
 ```
 ### How to use it?
 ```bash 
