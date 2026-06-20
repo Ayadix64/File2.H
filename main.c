@@ -179,10 +179,10 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 	fprintf(hader, "static const char %s[]{ \n\t",matrixName);
 	
 	for(u64 i = 0 ; i < sizeofData ; i++){
-		if(!(i%10)){
+		if(!(i%10)&&i){
 			fprintf(hader, "\n\t");
 		}
-		fprintf(hader, "%d , ",(u32)data[i]);
+		fprintf(hader, "0x%02x , ",(u32)data[i]);
 		
 	}
 	//fwrite(const void *__restrict ptr, size_t size, size_t n, FILE *__restrict s)
