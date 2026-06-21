@@ -176,7 +176,7 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 		fprintf(hader, "\n\n\n/********************************************%s***********************************************/\n",matrixName);
 	}
 
-	fprintf(hader, "static const char %s[]{ \n\t",matrixName);
+	fprintf(hader, "static const char %s[%d]{ \n\t",matrixName,sizeofData);
 	
 	for(u64 i = 0 ; i < sizeofData ; i++){
 		if(!(i%10)&&i){
