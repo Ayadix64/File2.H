@@ -23,21 +23,12 @@ u64 min(u64 v1 , u64 v2){
 void* Push(char* val , u32 sizeofstr ,u64 pos,  u64* dataSize , u64* usedData , char* data){
 	
 	if(usedData+sizeofstr>= dataSize){
-		u64 newDataSize = *usedData+sizeofstr+0x1000;//*dataSize+max(0x1000,*usedData+sizeofstr);
+		u64 newDataSize = *usedData+sizeofstr+0x1000;
 		data=realloc(data,newDataSize);
-		/*char* newdata = (char*)malloc(newDataSize);
-		memcpy(newdata, data, *dataSize);
-		free(data);
-		data=newdata;*/
-		*dataSize=newDataSize; 
 	}
 	if(pos>=*dataSize){
-		u64 newDataSize = pos+sizeofstr+0x1000;//*dataSize+max(0x1000,*usedData+sizeofstr);
+		u64 newDataSize = pos+sizeofstr+0x1000;
 		data=realloc(data, newDataSize);
-		/*char* newdata = (char*)malloc(*dataSize+max);
-		memcpy(newdata, data, *dataSize);
-		free(data);
-		data=newdata;*/
 		*dataSize=newDataSize;
 	}
 	for(u32 i = *usedData+sizeofstr; i>pos+sizeofstr; i--){
@@ -132,7 +123,6 @@ void WriteConstCharHaderFile(const char* haderName, char* matrixName , char* dat
 	}
 	fprintf(hader, "static const char* %s = \n",matrixName);
 	fwrite(data, 1, sizeofData-1,hader);
-	//fwrite(const void *__restrict ptr, size_t size, size_t n, FILE *__restrict s)
 	fprintf(hader, ";");
 	fclose(hader);
 	return;
@@ -177,7 +167,6 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 	}
 
 	fprintf(hader, "static const char %s[%d]{ \n\t",matrixName,sizeofData);
-	
 	for(u64 i = 0 ; i < sizeofData ; i++){
 		if(!(i%10)&&i){
 			fprintf(hader, "\n\t");
@@ -185,7 +174,6 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 		fprintf(hader, "0x%02x , ",(u32)data[i]);
 		
 	}
-	//fwrite(const void *__restrict ptr, size_t size, size_t n, FILE *__restrict s)
 	fprintf(hader, "};");
 	fclose(hader);
 	return;
@@ -218,6 +206,14 @@ void* Text2String(char* data, u64* dataSize, u64* usedData){
 
 
 
+void help(int status){
+	printf("Welcome to File2.H!\nthis programe is under the MIT License\ncheckout the github repo: https://github.com/Ayadix64/File2.H\n\n");
+	printf("===> [arg1 fileName] [arg2 2haderName] [arg3 StringName] -Option1 -Option2 ...\n"
+			"\nOptions:\n"	
+			"\t-m or --matrix if you want to save it as matrix not as a string.\n"
+			"\t-a or --appand if you dont want to over-write the data in the Haderfile.\n");
+	exit(status);
+}
 
 int main(int argc, char** arg){
 	printf("*** File2.H ***\n");
@@ -227,18 +223,13 @@ int main(int argc, char** arg){
 		if( (arglng==2 & !memcmp(arg[1], "-h", 2)) || 
 		    (arglng==6 & !memcmp(arg[1], "--help", 6))
 		  ){
-			printf("Welcome to File2.H!\nthis programe is under the MIT License\ncheckout the github repo: https://github.com/Ayadix64/File2.H\n\n");
-			printf("===> [arg1 fileName] [arg2 2haderName] [arg3 StringName] -Option1 -Option2 ...\n"
-			       "\nOptions:\n"	
-			       "\t-m or --matrix if you want to save it as matrix not as a string.\n"
-			       "\t-a or --appand if you dont want to over-write the data in the Haderfile.\n");
-			return 0;
-		}
+			help(0);			
+		   }
 	}
 
 	if(argc<=3){
-		printf("wrong argmentes struct, type -h for help\n");
-		return 1;
+		printf("wrong argmentes struct\n");
+		help(1);	
 	}
 	bool matrixmode = false;
 	bool appendmode = false;
