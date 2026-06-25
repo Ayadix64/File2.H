@@ -130,7 +130,7 @@ void WriteConstCharHaderFile(const char* haderName, char* matrixName , char* dat
 
 
 
-void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data , u64 sizeofData,bool append){
+void WriteMatrixHaderFile(const char* haderName, char* matrixName , unsigned char* data , u64 sizeofData,bool append){
 	FILE* hader = fopen(haderName, append?"a":"w");
 	if(!hader){
 		printf("Erorr in writing hader file");
@@ -166,12 +166,12 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , char* data ,
 		fprintf(hader, "\n\n\n/********************************************%s***********************************************/\n",matrixName);
 	}
 
-	fprintf(hader, "static const char %s[%d]{ \n\t",matrixName,sizeofData);
+	fprintf(hader, "static const unsigned char %s[%d]{ \n\t",matrixName,sizeofData);
 	for(u64 i = 0 ; i < sizeofData ; i++){
 		if(!(i%10)&&i){
 			fprintf(hader, "\n\t");
 		}
-		fprintf(hader, "0x%02x , ",(u32)data[i]);
+		fprintf(hader, "0x%02x, ",data[i]);
 		
 	}
 	fprintf(hader, "};");
