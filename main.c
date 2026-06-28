@@ -171,7 +171,7 @@ void WriteMatrixHaderFile(const char* haderName, char* matrixName , unsigned cha
 		if(!(i%10)&&i){
 			fprintf(hader, "\n\t");
 		}
-		fprintf(hader, "0x%02x, ",data[i]);
+		fprintf(hader, "0x%02x, ",(unsigned char)data[i]);
 		
 	}
 	fprintf(hader, "};");
