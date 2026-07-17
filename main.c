@@ -22,9 +22,10 @@ u64 min(u64 v1 , u64 v2){
 }
 void* Push(char* val , u32 sizeofstr ,u64 pos,  u64* dataSize , u64* usedData , char* data){
 	
-	if(usedData+sizeofstr>= dataSize){
+	if(*usedData+sizeofstr>= *dataSize){
 		u64 newDataSize = *usedData+sizeofstr+0x1000;
 		data=realloc(data,newDataSize);
+		*dataSize=newDataSize;
 	}
 	if(pos>=*dataSize){
 		u64 newDataSize = pos+sizeofstr+0x1000;
